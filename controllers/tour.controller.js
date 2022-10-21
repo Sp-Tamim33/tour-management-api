@@ -43,5 +43,10 @@ exports.getTrendingTour = async (req, res) => {
     }
 }
 exports.getChepestTour = async (req, res) => {
-    res.send('getChepestTour')
+    try {
+        const result = await TourModel.find().sort("price").limit(3)
+        res.send({ data: result })
+    } catch (error) {
+        res.send({ error: error.message })
+    }
 }
