@@ -35,7 +35,12 @@ exports.patchUpdateATour = async (req, res) => {
     res.send('patchUpdateATour')
 }
 exports.getTrendingTour = async (req, res) => {
-    res.send('getTrendingTour')
+    try {
+        const result = await TourModel.find().sort("-viewCount").limit(3)
+        res.send({ data: result })
+    } catch (error) {
+        res.send({ error: error.message })
+    }
 }
 exports.getChepestTour = async (req, res) => {
     res.send('getChepestTour')
