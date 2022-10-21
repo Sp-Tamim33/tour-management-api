@@ -1,11 +1,27 @@
-const express = require('express')
+const express = require('express');
+const cors = require('cors')
+const mongoose = require('mongoose');
 const app = express()
 const port = 3000 || process.env.PORT;
 const colors = require('colors');
 require('dotenv').config();
 
+//Middlewares
+app.use(express.json());
+app.use(cors())
 
-app.use(express.json())
+
+
+// DataBase Connection
+main().catch(err => console.log(err));
+
+async function main() {
+    await mongoose.connect(process.env.DATABASE).then(() => {
+        console.log("Database Connection Successful".cyan.bold);
+    });
+
+    // use `await mongoose.connect('mongodb://user:password@localhost:27017/test');` if your database has auth enabled
+}
 
 app.get('/', (req, res) => {
     res.send('Welcome to Tour Management API')
