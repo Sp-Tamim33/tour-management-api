@@ -22,7 +22,14 @@ exports.postTour = async (req, res) => {
     }
 }
 exports.getATour = async (req, res) => {
-    res.send('getAtour')
+    try {
+        const { id } = req.params;
+        await TourModel.updateOne({ _id: id }, { $inc: { viewCount: 1 } })
+        const result = await TourModel.findById(id);
+        res.send({ data: result })
+    } catch (error) {
+        res.send(error.message)
+    }
 }
 exports.patchUpdateATour = async (req, res) => {
     res.send('patchUpdateATour')
