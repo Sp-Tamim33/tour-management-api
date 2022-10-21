@@ -7,7 +7,7 @@ exports.getAllTours = async (req, res) => {
         const result = await TourModel.find();
         res.send({ data: result })
     } catch (error) {
-        res.send(error.message)
+        res.send({ error: error.message })
     }
 }
 exports.postTour = async (req, res) => {
@@ -18,7 +18,7 @@ exports.postTour = async (req, res) => {
             data: result
         })
     } catch (error) {
-        res.send(error.message)
+        res.send({ error: error.message })
     }
 }
 exports.getATour = async (req, res) => {
@@ -28,7 +28,7 @@ exports.getATour = async (req, res) => {
         const result = await TourModel.findById(id);
         res.send({ data: result })
     } catch (error) {
-        res.send(error.message)
+        res.send({ error: error.message })
     }
 }
 exports.patchUpdateATour = async (req, res) => {
