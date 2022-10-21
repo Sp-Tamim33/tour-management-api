@@ -3,7 +3,12 @@ const TourModel = require("../models/tour.model")
 
 
 exports.getAllTours = async (req, res) => {
-    res.send('getAllTours')
+    try {
+        const result = await TourModel.find();
+        res.send({ data: result })
+    } catch (error) {
+        res.send(error.message)
+    }
 }
 exports.postTour = async (req, res) => {
     try {
