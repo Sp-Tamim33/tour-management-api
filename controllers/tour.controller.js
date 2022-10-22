@@ -32,7 +32,18 @@ exports.getATour = async (req, res) => {
     }
 }
 exports.patchUpdateATour = async (req, res) => {
-    res.send('patchUpdateATour')
+    try {
+        const { id } = req.params;
+        const result = await TourModel.updateOne({ _id: id }, { $set: req.body }, {
+            runValidators: true
+        })
+        res.send({
+            status: "Success",
+            data: result
+        })
+    } catch (error) {
+        res.send({ error: error.message })
+    }
 }
 exports.getTrendingTour = async (req, res) => {
     try {
