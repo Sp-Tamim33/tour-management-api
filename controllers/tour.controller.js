@@ -4,8 +4,32 @@ const TourModel = require("../models/tour.model")
 
 exports.getAllTours = async (req, res) => {
     try {
-        const result = await TourModel.find();
-        res.send({ data: result })
+
+        const queries = {};
+        if (req.query.sort) {
+            const sortby = req.query.sort.split(',').join(' ');
+            queries.sortby = sortby
+        }
+        if (req.query.fields) {
+            const fields = req.query.fields.split(',').join(' ');
+            queries.fields = fields
+        }
+        if (req.query.page) {
+            const { page = 1, limit = 3 } = req.query;
+            const skip = (page - 1) * parseInt(limit);
+            queries.skip = skip;
+            queries.limit = limit;
+        }
+
+        const total = await TourModel.find({}).countDocuments();
+        const pageCount = Math.ceil(total / queries.limit);
+        const result = await TourModel
+            .find({})
+            .sort(queries.sortby)
+            .select(queries.fields)
+            .skip(queries.skip)
+            .limit(queries.limit);
+        res.send({ totalTourPlace: total, pageCount: pageCount, data: result })
     } catch (error) {
         res.send({ error: error.message })
     }

@@ -11,7 +11,7 @@ const TourSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
-        min: [0, 'Price cannot be Negative value'],
+        min: [1, 'Price cannot be Negative value'],
         required: true
     },
     image: {
